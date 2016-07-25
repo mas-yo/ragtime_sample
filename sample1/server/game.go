@@ -2,8 +2,8 @@ package main
 
 import (
     // "log"
-    "ragtime/game"
-    "ragtime/server"
+    "github.com/mypianoplayer/ragtime/game"
+    "github.com/mypianoplayer/ragtime/server"
     "net/http"
     )
 

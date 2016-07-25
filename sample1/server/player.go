@@ -3,8 +3,8 @@ package main
 import (
     "log"
     // "reflect"
-    "ragtime/game"
-    "ragtime/example/tictactoe/server/component"
+    "github.com/mypianoplayer/ragtime/game"
+    "github.com/mypianoplayer/ragtime_sample/sample1/server/component"
     )
 
 type Player struct {

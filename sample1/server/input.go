@@ -1,7 +1,7 @@
 package main
 
 import (
-    "ragtime/game"
+    "github.com/mypianoplayer/ragtime/game"
     )
 
 type Input struct {
