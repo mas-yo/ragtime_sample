@@ -14,11 +14,14 @@ type Player struct {
 }
 
 func NewPlayer() *Player {
-    return &Player {
+    p := Player {
         ObjectBase:*game.NewObject("player"),
         Position:component.Position{},
         View:*component.NewView("{-]"),
     }
+    game.SetupComponent(&p)
+    
+    return &p
 }
 
 
