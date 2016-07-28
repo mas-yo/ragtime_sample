@@ -1,7 +1,7 @@
 package main
 
 import (
-    // "log"
+    "log"
     "github.com/mypianoplayer/ragtime/game"
     "github.com/mypianoplayer/ragtime/server"
     "net/http"
@@ -13,9 +13,14 @@ type Game struct {
 }
 
 func NewGame() *Game {
-    sc := game.NewScene()
-    sv := server.New("/game", sc.MsgCh)
-    return &Game{sc,sv}
+    sv := server.New("/game")
+    sc := game.NewScene(sv.RecvCh(), nil)
+    g := &Game{
+        scene:sc,
+        server:sv,
+    }
+    g.scene.SetReceiver(g)
+    return g
 }
 
 func (g *Game) Scene() *game.Scene {
@@ -29,13 +34,21 @@ func (g *Game) Server() *server.Server {
 func (g* Game) Start() {
 
 
-	player := NewPlayer()
+// 	player := NewPlayer()
 
-	g.scene.AddObject(player)
+// 	g.scene.AddObject(player)
 
 	http.Handle("/", http.FileServer(http.Dir("../client/")))
 
 	g.scene.Start()
 	g.server.Start()
 
+}
+
+func (g *Game) OnMessage(msg *server.Message) {
+    log.Println("onmsg", msg)
+    if msg.Params[0] == "start" {
+        player := NewPlayer()
+        g.scene.AddObject(player)
+    }
 }
