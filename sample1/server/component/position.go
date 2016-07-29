@@ -9,6 +9,7 @@ import (
 type Position struct {
     game.ComponentBase
     pos [2]float32
+    input *Input
 }
 
 func NewPosition() *Position {
@@ -21,14 +22,27 @@ func (p *Position) IsDeleted() bool {
     return false
 }
 
+func (p *Position) Pos() [2]float32 {
+    return p.pos
+}
+
 func (p *Position) Start() {
     
+    for c := range game.EachComponent(p.Object()) {
+        
+        log.Println("component : ", c)
+        
+        in,ok := c.(*Input)
+        if ok {
+            p.input = in
+            log.Println(" set ref input ok" )
+        }
+    }
 }
 
 func (p *Position) Update() {
-    log.Println("pos update")
-
-    // server.SendAll pos
+    p.pos[0] = p.pos[0] + (p.input.Pos()[0] - p.pos[0]) / 2.0
+    p.pos[1] = p.pos[1] + (p.input.Pos()[1] - p.pos[1]) / 2.0
 }
 
 func (p *Position) UpdateOrder() int {

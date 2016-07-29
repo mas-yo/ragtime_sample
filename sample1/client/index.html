@@ -14,14 +14,14 @@
         output = document.getElementById("output");
         testWebSocket();
 
-        var sendbutton = document.getElementById("output");
-        sendbutton.onclick = function(evt){
+    }
+    
+    function start(){
         doSend('{"params":["start"]}');
-            // var author = document.getElementById("author");
-            // var body = document.getElementById("body");
-            // doSend('{"author":"' + author.value + '","body":"' + body.value + '"}');
-            // doSend('{"author":"test","body":"hello"}')
-        };
+    }
+    
+    function onClick() {
+        doSend('{"params":["click","' + event.screenX + '","' + event.screenY + '"]}');
     }
 
     function testWebSocket() {
@@ -51,7 +51,7 @@
 
     function onMessage(evt) {
         var cmd = JSON.parse(evt.data);
-        log(cmd);
+        log('received:' + evt.data);
        // writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data + ' </span>');
 
        // createObject( objectid, type )
@@ -59,9 +59,16 @@
        if( cmd.params[0]=="newObject" ) {
             var game = document.getElementById("game");
             var obj = document.createElement("div");
-            obj.textContent = cmd.params[1];
+            obj.id = cmd.params[1];
+            obj.textContent = cmd.params[2];
             obj.style.position="absolute";
             game.appendChild(obj);
+       }
+       
+       if( cmd.params[0] == "setpos" ) {
+           var elm = document.getElementById(cmd.params[1]);
+           elm.style.left = cmd.params[2];
+           elm.style.top = cmd.params[3];
        }
     }
 
@@ -84,9 +91,10 @@
 
     </script>
 </head>
-<body onload="init()">
+<body onload="init()" onclick="onClick()">
     <h2>Title</h2>
-    <div id="game"></div>
+    <div id="game"></div><br/>
+    <div id="startBtn" onclick="start()">START</div>
     <br/>
     LOG:<div id="output"></div>
 </body>
