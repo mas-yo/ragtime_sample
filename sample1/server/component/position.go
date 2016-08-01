@@ -41,8 +41,8 @@ func (p *Position) Start() {
 }
 
 func (p *Position) Update() {
-    p.pos[0] = p.pos[0] + (p.input.Pos()[0] - p.pos[0]) / 2.0
-    p.pos[1] = p.pos[1] + (p.input.Pos()[1] - p.pos[1]) / 2.0
+    p.pos[0] = p.pos[0] + (p.input.Pos()[0] - p.pos[0]) / 20.0
+    p.pos[1] = p.pos[1] + (p.input.Pos()[1] - p.pos[1]) / 20.0
 }
 
 func (p *Position) UpdateOrder() int {
