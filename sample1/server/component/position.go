@@ -14,7 +14,7 @@ type Position struct {
 
 func NewPosition() *Position {
     return &Position {
-        ComponentBase:*game.NewComponent(),
+        ComponentBase:*game.NewComponentBase(OrderPosition),
     }
 }
 
@@ -45,6 +45,3 @@ func (p *Position) Update() {
     p.pos[1] = p.pos[1] + (p.input.Pos()[1] - p.pos[1]) / 20.0
 }
 
-func (p *Position) UpdateOrder() int {
-    return 0
-}

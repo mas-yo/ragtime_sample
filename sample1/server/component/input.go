@@ -13,7 +13,7 @@ type Input struct {
 
 func NewInput() *Input {
     return &Input {
-        ComponentBase:*game.NewComponent(),
+        ComponentBase:*game.NewComponentBase(OrderInput),
     }
 }
 
@@ -33,8 +33,4 @@ func (p *Input) Update() {
     // log.Println("pos update")
 
     // server.SendAll pos
-}
-
-func (p *Input) UpdateOrder() int {
-    return 0
 }

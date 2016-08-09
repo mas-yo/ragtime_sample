@@ -15,12 +15,12 @@ type Player struct {
     component.View
 }
 
-func NewPlayer(sendMsgCh chan *server.Message) *Player {
+func NewPlayer(name string, sendMsgCh chan *server.Message) *Player {
     p := Player {
-        ObjectBase:*game.NewObject("player"),
+        ObjectBase:*game.NewObjectBase(name),
         Input:*component.NewInput(),
         Position:*component.NewPosition(),
-        View:*component.NewView("[-]", sendMsgCh),
+        View:*component.NewView(name, "[-]", sendMsgCh),
     }
     game.SetupComponent(&p)
     
@@ -34,4 +34,3 @@ func (p *Player) InputComponent() *component.Input {
 func (p *Player) Test() {
     log.Println("TEST")
 }
-

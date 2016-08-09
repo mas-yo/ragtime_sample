@@ -3,6 +3,7 @@ package main
 import (
     "log"
     "strconv"
+    "fmt"
     "github.com/mypianoplayer/ragtime/game"
     "github.com/mypianoplayer/ragtime/server"
     _ "github.com/mypianoplayer/ragtime_sample/sample1/server/component"
@@ -13,9 +14,7 @@ type Game struct {
     scene *game.Scene
     server *server.Server
     
-    started bool
-    
-    player *Player
+    players map[int]*Player
 }
 
 func NewGame() *Game {
@@ -24,6 +23,7 @@ func NewGame() *Game {
     g := &Game{
         scene:sc,
         server:sv,
+        players:make(map[int]*Player),
     }
     g.scene.SetReceiver(g)
     return g
@@ -59,18 +59,23 @@ func (g* Game) Start() {
 
 func (g *Game) OnMessage(msg *server.Message) {
     log.Println("onmsg", msg)
-    if !g.started && msg.Params[0] == "start" {
-        player := NewPlayer(g.server.SendAllCh())
+    if msg.Params[0] == "start" {
+        name := fmt.Sprintf("player%d", msg.ID)
+        player := NewPlayer(name, g.server.SendAllCh())
         g.scene.AddObject(player)
         g.started = true
         
-        g.player = player
+        g.players[msg.ID] = player
     }
     
     
     if g.started && msg.Params[0] == "click" {
         x, _ := strconv.Atoi(msg.Params[1])
         y, _ := strconv.Atoi(msg.Params[2])
-        g.player.InputComponent().SetPos([2]float32{ float32(x), float32(y) })
+        
+        p, ok := g.players[msg.ID]
+        if ok {
+            p.InputComponent().SetPos([2]float32{ float32(x), float32(y) })
+        }
     }
 }

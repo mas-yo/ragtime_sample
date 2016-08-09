@@ -4,12 +4,6 @@ import (
 	"log"
 )
 
-
-
-const (
-    ComponentType_Position = iota
-)
-
 func main() {
 	log.SetFlags(log.Lshortfile)
 

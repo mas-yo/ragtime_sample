@@ -9,20 +9,22 @@ import (
 
 type View struct {
     game.ComponentBase
+    name string
     text string
     pos *Position
     sendMsgCh chan *server.Message
 }
 
-func NewView(t string, sendMsgCh chan *server.Message) *View {
+func NewView(name string, t string, sendMsgCh chan *server.Message) *View {
     
     msg := server.Message{
-        Params:[]string{"newObject", "player", t},
+        Params:[]string{"newObject", name, t},
     }
     sendMsgCh <- &msg
     
     v := View {
-        ComponentBase:*game.NewComponent(),
+        ComponentBase:*game.NewComponentBase(OrderView),
+        name: name,
         text:t,
         sendMsgCh:sendMsgCh,
     }
@@ -42,11 +44,7 @@ func (v *View) Update() {
     // log.Println("view update")
     
     msg := server.Message {
-        Params:[]string{"setpos", "player", strconv.FormatFloat(float64(v.pos.Pos()[0]),'f',-1,32), strconv.FormatFloat(float64(v.pos.Pos()[1]),'f',-1,32)},
+        Params:[]string{"setpos", v.name, strconv.FormatFloat(float64(v.pos.Pos()[0]),'f',-1,32), strconv.FormatFloat(float64(v.pos.Pos()[1]),'f',-1,32)},
     }
     v.sendMsgCh <- &msg
-}
-
-func (v *View) UpdateOrder() int {
-    return 1;
 }

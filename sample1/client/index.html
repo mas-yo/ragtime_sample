@@ -84,7 +84,7 @@
         var pre = document.createElement("p");
         pre.style.wordWrap = "break-word";
         pre.innerHTML = message;
-        output.appendChild(pre);
+        output.insertBefore(pre, output.childNodes[0]);
     }
 
 //    window.addEventListener("load", init, false);
@@ -94,8 +94,8 @@
 <body onload="init()" onclick="onClick()">
     <h2>Title</h2>
     <div id="game"></div><br/>
-    <div id="startBtn" onclick="start()">START</div>
+    <button id="startBtn" onclick="start()">START</button>
     <br/>
-    LOG:<div id="output"></div>
+    LOG:<div id="output"><p>---</p></div>
 </body>
 </html>
