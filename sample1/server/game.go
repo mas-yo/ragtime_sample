@@ -63,13 +63,12 @@ func (g *Game) OnMessage(msg *server.Message) {
         name := fmt.Sprintf("player%d", msg.ID)
         player := NewPlayer(name, g.server.SendAllCh())
         g.scene.AddObject(player)
-        g.started = true
-        
+
         g.players[msg.ID] = player
     }
     
     
-    if g.started && msg.Params[0] == "click" {
+    if msg.Params[0] == "click" {
         x, _ := strconv.Atoi(msg.Params[1])
         y, _ := strconv.Atoi(msg.Params[2])
         
