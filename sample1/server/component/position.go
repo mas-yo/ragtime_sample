@@ -1,7 +1,7 @@
 package component
 
 import (
-    "log"
+    _ "log"
     "github.com/mypianoplayer/ragtime/game"
     )
 
@@ -14,7 +14,7 @@ type Position struct {
 
 func NewPosition() *Position {
     return &Position {
-        ComponentBase:*game.NewComponentBase(OrderPosition),
+        ComponentBase:*game.NewComponentBase(ComponentType_Position,OrderPosition),
     }
 }
 
@@ -27,17 +27,7 @@ func (p *Position) Pos() [2]float32 {
 }
 
 func (p *Position) Start() {
-    
-    for c := range game.EachComponent(p.Object()) {
-        
-        log.Println("component : ", c)
-        
-        in,ok := c.(*Input)
-        if ok {
-            p.input = in
-            log.Println(" set ref input ok" )
-        }
-    }
+    p.input, _ = p.Object().Components()[ComponentType_Input].(*Input)
 }
 
 func (p *Position) Update() {

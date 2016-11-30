@@ -23,7 +23,7 @@ func NewView(name string, t string, sendMsgCh chan *server.Message) *View {
     sendMsgCh <- &msg
     
     v := View {
-        ComponentBase:*game.NewComponentBase(OrderView),
+        ComponentBase:*game.NewComponentBase(ComponentType_View,OrderView),
         name: name,
         text:t,
         sendMsgCh:sendMsgCh,
@@ -32,16 +32,11 @@ func NewView(name string, t string, sendMsgCh chan *server.Message) *View {
 }
 
 func (v *View) Start() {
-    for c := range game.EachComponent(v.Object()) {
-        pos,ok := c.(*Position)
-        if ok {
-            v.pos = pos
-        }
-    }
+    v.pos, _ = v.Object().Components()[ComponentType_Position].(*Position)
 }
 
 func (v *View) Update() {
-    // log.Println("view update")
+    //log.Println("view update")
     
     msg := server.Message {
         Params:[]string{"setpos", v.name, strconv.FormatFloat(float64(v.pos.Pos()[0]),'f',-1,32), strconv.FormatFloat(float64(v.pos.Pos()[1]),'f',-1,32)},

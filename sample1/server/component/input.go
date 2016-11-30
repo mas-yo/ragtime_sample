@@ -13,7 +13,7 @@ type Input struct {
 
 func NewInput() *Input {
     return &Input {
-        ComponentBase:*game.NewComponentBase(OrderInput),
+        ComponentBase:*game.NewComponentBase(ComponentType_Input,OrderInput),
     }
 }
 

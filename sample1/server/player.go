@@ -10,25 +10,23 @@ import (
 
 type Player struct {
     game.ObjectBase
-    component.Input
-    component.Position
-    component.View
 }
 
 func NewPlayer(name string, sendMsgCh chan *server.Message) *Player {
     p := Player {
         ObjectBase:*game.NewObjectBase(name),
-        Input:*component.NewInput(),
-        Position:*component.NewPosition(),
-        View:*component.NewView(name, "[-]", sendMsgCh),
     }
-    game.SetupComponent(&p)
+    p.ObjectBase.AddComponent( component.NewInput() )
+    p.ObjectBase.AddComponent( component.NewPosition() )
+    p.ObjectBase.AddComponent( component.NewView(name, "[-]", sendMsgCh) )
+    p.SetupComponent()
     
     return &p
 }
 
 func (p *Player) InputComponent() *component.Input {
-    return &p.Input
+    ret,_ := p.Components()[component.ComponentType_Input]
+    return ret.(*component.Input)
 }
 
 func (p *Player) Test() {
