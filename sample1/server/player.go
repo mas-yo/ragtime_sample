@@ -19,8 +19,7 @@ func NewPlayer(name string, sendMsgCh chan *server.Message) *Player {
     p.ObjectBase.AddComponent( component.NewInput() )
     p.ObjectBase.AddComponent( component.NewPosition() )
     p.ObjectBase.AddComponent( component.NewView(name, "[-]", sendMsgCh) )
-    p.SetupComponent()
-    
+
     return &p
 }
 
